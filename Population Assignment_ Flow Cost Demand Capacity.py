@@ -114,7 +114,6 @@ prob.solve()
 print("Status:", LpStatus[prob.status])
 PostProcess(prob, InitialFlow)
 
-print(1)
         
 
 
