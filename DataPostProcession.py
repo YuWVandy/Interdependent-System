@@ -189,11 +189,17 @@ for j in range(WaterElecGasNetwork.NodeNum):
             WaterElecGasNetwork.NodeFailConProb[j, k] = NumFailjk/NumFailj
 
 DataFrame = np.array(list(WaterElecGasNetwork.NodeFailConProb), dtype=np.float)
-ax = sns.heatmap(DataFrame, xticklabels = np.arange(0, 155, 5), yticklabels=False)
+ax = sns.heatmap(DataFrame, xticklabels = 10, yticklabels = 10)
 bottom, top = ax.get_ylim()
-ax.set_ylim(bottom + 5, top)
+ax.set_ylim(bottom+9.5, top-0.5)
+1111
+X = []
+Y = []
+for i in range(WaterElecGasNetwork.NodeNum):
+    for j in range(WaterElecGasNetwork.NodeNum):
+      X.append(WaterElecGasNetwork.NodeDistance[i][j])
+      Y.append(WaterElecGasNetwork.NodeFailConProb[i][j])
 
-        
-        
+plt.scatter(X, Y)        
 
 
