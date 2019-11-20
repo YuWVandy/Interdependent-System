@@ -192,7 +192,7 @@ DataFrame = np.array(list(WaterElecGasNetwork.NodeFailConProb), dtype=np.float)
 ax = sns.heatmap(DataFrame, xticklabels = 10, yticklabels = 10)
 bottom, top = ax.get_ylim()
 ax.set_ylim(bottom+9.5, top-0.5)
-1111
+
 X = []
 Y = []
 for i in range(WaterElecGasNetwork.NodeNum):
