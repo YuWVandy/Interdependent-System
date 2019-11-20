@@ -85,7 +85,9 @@ class System:
         self.NodeShape = []
         
         
-        
+        self.NodeDistance = np.zeros([self.NodeNum, self.NodeNum])
+        self.NodeFailTime = np.array([[None]*self.NodeNum]*self.NodeNum)
+        self.NodeFailConProb = np.array([[None]*self.NodeNum]*self.NodeNum)
         self.Graph = None
 
         
@@ -135,6 +137,16 @@ class System:
         
         self.GeoLocation[self.Network3.WholeNodeSeries[0]:(self.Network3.WholeNodeSeries[-1]+1), 0:2] = self.Network3.NodeLocGeo
         self.Location[self.Network3.WholeNodeSeries[0]:(self.Network3.WholeNodeSeries[-1]+1), 0:2] = self.Network3.NodeLoc
+        
+    def NodeDistanceCal(self):
+        for i in range(len(self.GeoLocation)):
+            for j in range(i, len(self.GeoLocation)):
+                if(i == j):
+                    self.NodeDistance[i][j] = self.NodeDistance[j][i] = 0
+                else:
+                    self.NodeDistance[i][j] = self.NodeDistance[j][i] = np.sqrt(np.dot((self.GeoLocation[i] - self.GeoLocation[j]), \
+                                     np.transpose(self.GeoLocation[i] - self.GeoLocation[j])))/1000 #Unit Change
+                
         
     def GenerateGraph(self):
         self.Graph = nx.from_numpy_matrix(self.Adj)
@@ -292,3 +304,4 @@ WaterElecGasNetwork.LinkSegment(m)
 WaterElecGasNetwork.DrawingParameter()
 WaterElecGasNetwork.Draw()
 WaterElecGasNetwork.FlowCapaCal()
+WaterElecGasNetwork.NodeDistanceCal()

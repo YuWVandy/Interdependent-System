@@ -6,8 +6,42 @@ Created on Sun Oct 27 12:24:43 2019
 """
 
 
+Parameter = {'LineSegNum': LineSegNum, 'SimuTime': SimuTime, 'DeFunctionThreshold': DefunctionThreshold, 'DisrupIntensity': DisrupIntensity, 'DisrupLat': DisrupLat, 'DisrupLon': DisrupLon,\
+             'Residuality': 0.4, 'ErfaFlow': 30}
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\InfrasDict.npy', InfrasDict)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleElectricityPerformance.npy', SingleElectricityPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleWaterPerformance.npy', SingleWaterPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleGasPerformance.npy', SingleGasPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\ElectricityPerformance.npy', ElectricityPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\WaterPerformance.npy', WaterPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\GasPerformance.npy', GasPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SystemPerformance.npy', SystemPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleSystemPerformance.npy', SingleSystemPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffSystemPerformance.npy', DiffSystemPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffWaterPerformance.npy', DiffWaterPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffGasPerformance.npy', DiffGasPerformance)
+np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffElectricityPerformance.npy', DiffElectricityPerformance)   
+   
+
+
+import pickle
+import seaborn as sns
+pickle_out = open(r"C:\Users\wany105\Desktop\Vulnerability update!!\Test2\Network.pickle","wb")
+pickle.dump(Water, pickle_out)
+pickle.dump(Gas, pickle_out)
+pickle.dump(Electricity, pickle_out)
+pickle.dump(ResourceElecWater, pickle_out)
+pickle.dump(ResourceGasElec, pickle_out)
+pickle.dump(PowerElecWater, pickle_out)
+pickle.dump(PowerElecGas, pickle_out)
+pickle.dump(WaterElecGasNetwork, pickle_out)
+pickle.dump(Parameter, pickle_out)
+pickle.dump(Earthquake2System, pickle_out)
+
+
 ##Intensity Change Curve: Intensity:[0, 3, 5, 7, 9], Local area: 35, -90
 #Intensity change curve
+
 IntenNum = [0, 3, 5, 7, 10]
 LocalLatNum = 11
 LocalLonNum = 11
@@ -135,5 +169,31 @@ Disrupeq_map.pcolormesh(Disruplon, Disruplat, AveInterDependenceStrengthInsert[0
 Disrupeq_map.colorbar(mappable=None, location='right', size='5%', pad='2%', fig=None, ax=None)
 
 plt.show()
- 
+#The relationship between conditional probability and distance between two nodes
+CaseSystemNodeFail = SystemNodeFailIndex[0][0][0] #Choose a node failure results under an earthquake with certain intensity and location
+
+for j in range(WaterElecGasNetwork.NodeNum):
+    for k in range(WaterElecGasNetwork.NodeNum):
+        NumFailj = 0
+        NumFailjk = 0
+        for i in range(len(CaseSystemNodeFail)):
+            if(j in CaseSystemNodeFail[i]):
+                NumFailj += 1
+            if(j in CaseSystemNodeFail[i] and k in CaseSystemNodeFail[i]):
+                NumFailjk += 1
+        if(NumFailj == 0):
+            WaterElecGasNetwork.NodeFailTime[j, k] = [NumFailj, NumFailjk]
+            WaterElecGasNetwork.NodeFailConProb[j, k] = 0
+        else:
+            WaterElecGasNetwork.NodeFailTime[j, k] = [NumFailj, NumFailjk]
+            WaterElecGasNetwork.NodeFailConProb[j, k] = NumFailjk/NumFailj
+
+DataFrame = np.array(list(WaterElecGasNetwork.NodeFailConProb), dtype=np.float)
+ax = sns.heatmap(DataFrame, xticklabels = np.arange(0, 155, 5), yticklabels=False)
+bottom, top = ax.get_ylim()
+ax.set_ylim(bottom + 5, top)
+
+        
+        
+
 

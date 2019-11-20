@@ -431,10 +431,13 @@ class DisruptionSystem:
             
 
 #Input Setting
+DisrupIntensity = np.arange(6, 7, 1)
+DisrupLat = np.arange(37, 38, 1)
+DisrupLon = np.arange(-80, -79, 1)
+"""
 DisrupIntensity = np.arange(0, 10.5, 1)
 DisrupLat = np.arange(25, 46, 1)
 DisrupLon = np.arange(-100, -79, 1)
-"""
 Test1
 DisrupIntensity = np.arange(0, 10.5, 0.5)
 DisrupLat = np.arange(27.5, 43.5, 1)
@@ -447,7 +450,7 @@ DisrupLon = np.arange(-97.5, -82.25, 0.25)
 """
 DefunctionThreshold = 0.5 #The low bound of flow value into the node, which can be the low threshold to decide whether the node is failure or not
 LineSegNum = 300 #The number of Line Segments
-SimuTime = 1
+SimuTime = 100
 
 SystemPerformance = np.array([[[[None]*SimuTime]*len(DisrupLat)]*len(DisrupLon)]*len(DisrupIntensity))
 SystemNodeFailIndex = np.array([[[[None]*SimuTime]*len(DisrupLat)]*len(DisrupLon)]*len(DisrupIntensity))
@@ -629,33 +632,3 @@ for i in range(len(DisrupIntensity)):
                 Temp += 1           
 
 
-Parameter = {'LineSegNum': LineSegNum, 'SimuTime': SimuTime, 'DeFunctionThreshold': DefunctionThreshold, 'DisrupIntensity': DisrupIntensity, 'DisrupLat': DisrupLat, 'DisrupLon': DisrupLon,\
-             'Residuality': 0.4, 'ErfaFlow': 30}
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\InfrasDict.npy', InfrasDict)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleElectricityPerformance.npy', SingleElectricityPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleWaterPerformance.npy', SingleWaterPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleGasPerformance.npy', SingleGasPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\ElectricityPerformance.npy', ElectricityPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\WaterPerformance.npy', WaterPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\GasPerformance.npy', GasPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SystemPerformance.npy', SystemPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\SingleSystemPerformance.npy', SingleSystemPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffSystemPerformance.npy', DiffSystemPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffWaterPerformance.npy', DiffWaterPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffGasPerformance.npy', DiffGasPerformance)
-np.save(r'C:\Users\wany105\Desktop\Vulnerability update!!\Test2\DiffElectricityPerformance.npy', DiffElectricityPerformance)   
-   
-
-
-import pickle
-pickle_out = open(r"C:\Users\wany105\Desktop\Vulnerability update!!\Test2\Network.pickle","wb")
-pickle.dump(Water, pickle_out)
-pickle.dump(Gas, pickle_out)
-pickle.dump(Electricity, pickle_out)
-pickle.dump(ResourceElecWater, pickle_out)
-pickle.dump(ResourceGasElec, pickle_out)
-pickle.dump(PowerElecWater, pickle_out)
-pickle.dump(PowerElecGas, pickle_out)
-pickle.dump(WaterElecGasNetwork, pickle_out)
-pickle.dump(Parameter, pickle_out)
-pickle.dump(Earthquake2System, pickle_out)
